@@ -17,6 +17,7 @@
 │       ├── App.test.js
 │       ├── components
 │       │   ├── MicMonitor.js
+│       │   ├── ReadingHistory.js
 │       │   └── StatusDisplay.js
 │       ├── index.css
 │       ├── index.js
@@ -32,10 +33,12 @@
 │   │   └── event.json
 │   ├── handlers
 │   │   ├── detect_noise.py
+│   │   ├── get_readings.py
 │   │   └── requirements.txt
 │   ├── __init__.py
 │   ├── README.md
 │   ├── samconfig.toml
+│   ├── serverless.yml
 │   ├── template.yaml
 │   └── tests
 │       ├── __init__.py
@@ -48,4 +51,4 @@
 │           └── test_handler.py
 └── tree.txt
 
-11 directories, 38 files
+11 directories, 41 files
