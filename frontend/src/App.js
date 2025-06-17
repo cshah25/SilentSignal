@@ -1,23 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import MicMonitor from './components/MicMonitor';
+import ReadingHistory from './components/ReadingHistory';
 
 function App() {
+  const userId = "rayu"; // You can make this dynamic later
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="min-h-screen p-6 bg-white text-black">
+      <h1 className="text-2xl font-bold mb-4">Silent Signal – Real-Time Noise Monitor</h1>
+      <MicMonitor userId={userId} />
+      <ReadingHistory userId={userId} />
     </div>
   );
 }

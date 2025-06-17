@@ -1,0 +1,8 @@
+functions:
+  detectNoise:
+    handler: handlers/detect_noise.handler
+    events:
+      - http:
+          path: noise
+          method: post
+          cors: true

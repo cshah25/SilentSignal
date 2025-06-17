@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: silent-signal-backend
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: python3.11
+    Environment:
+      Variables:
+        TABLE_NAME: !Ref NoiseEventsTable
+
+Resources:
+  SilentSignalApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors:
+        AllowMethods: "'OPTIONS,GET,POST'"
+        AllowHeaders: "'Content-Type'"
+        AllowOrigin: "'*'"
+
+  DetectNoiseFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handlers.detect_noise.handler
+      Events:
+        ApiNoisePost:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SilentSignalApi
+            Path: /noise
+            Method: post
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref NoiseEventsTable
+
+  GetReadingsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handlers/get_readings.handler
+      Events:
+        ApiNoiseGet:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SilentSignalApi
+            Path: /noise
+            Method: get
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref NoiseEventsTable
+
+
+  NoiseEventsTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: NoiseEventsTable
+      PrimaryKey:
+        Name: userId
+        Type: String
+
+Outputs:
+  ApiUrl:
+    Description: "Invoke URL for the noise detection endpoint"
+    Value: !Sub "https://${SilentSignalApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/noise"

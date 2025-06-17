@@ -1,0 +1,51 @@
+.
+├── designdoc
+├── frontend
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── public
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── logo192.png
+│   │   ├── logo512.png
+│   │   ├── manifest.json
+│   │   └── robots.txt
+│   ├── README.md
+│   └── src
+│       ├── App.css
+│       ├── App.js
+│       ├── App.test.js
+│       ├── components
+│       │   ├── MicMonitor.js
+│       │   └── StatusDisplay.js
+│       ├── index.css
+│       ├── index.js
+│       ├── logo.svg
+│       ├── reportWebVitals.js
+│       └── setupTests.js
+├── LICENSE
+├── package.json
+├── package-lock.json
+├── README.md
+├── silent-signal-backend
+│   ├── events
+│   │   └── event.json
+│   ├── handlers
+│   │   ├── detect_noise.py
+│   │   └── requirements.txt
+│   ├── __init__.py
+│   ├── README.md
+│   ├── samconfig.toml
+│   ├── template.yaml
+│   └── tests
+│       ├── __init__.py
+│       ├── integration
+│       │   ├── __init__.py
+│       │   └── test_api_gateway.py
+│       ├── requirements.txt
+│       └── unit
+│           ├── __init__.py
+│           └── test_handler.py
+└── tree.txt
+
+11 directories, 38 files
