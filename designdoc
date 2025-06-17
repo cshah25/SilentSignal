@@ -1,0 +1,308 @@
+Design Document: Silent Signal – Ambient Noise Violation Detector
+Overview
+Project Name: Silent Signal
+ Team Size: 2 members
+ Timeline: 14 days
+ Goal: Build a serverless system using AWS Lambda (Python) to detect excessive ambient noise from user microphones in real-time, log violations, and provide feedback. Intended to help remote teams monitor and reduce meeting disruptions.
+
+Objectives
+Detect microphone noise in the browser via Web Audio API
+
+
+Periodically send noise level data to a backend endpoint
+
+
+Analyze noise data in AWS Lambda (written in Python)
+
+
+Log violations in DynamoDB
+
+
+Notify users via email/SMS using Amazon SES/SNS
+
+
+Show visual noise insights and history in frontend UI
+
+
+Bonus: Use Amazon Bedrock or lightweight ML to classify sound types
+
+
+
+Tech Stack
+Frontend:
+React.js
+
+
+Web Audio API
+
+
+Axios
+
+
+Tailwind CSS
+
+
+Backend (Python):
+AWS Lambda (Python runtime)
+
+
+Amazon API Gateway
+
+
+Amazon DynamoDB
+
+
+Amazon SES / Amazon SNS
+
+
+Infra + Tools:
+AWS SAM or Serverless Framework (Python-compatible)
+
+
+GitHub (repo + issues + version control)
+
+
+Postman / curl (for API testing)
+
+
+Vercel / Netlify (for frontend hosting)
+
+
+Devpost (submission platform)
+
+
+
+Architecture
+User opens frontend app and grants mic access
+
+
+Web Audio API captures volume levels every few seconds
+
+
+Browser sends noise payload (JSON) to AWS API Gateway
+
+
+API Gateway invokes AWS Lambda (Python)
+
+
+Lambda function:
+
+
+Parses noise payload
+
+
+Compares against thresholds
+
+
+Logs violation to DynamoDB
+
+
+Sends email/SMS via SES/SNS if necessary
+
+
+Frontend displays feedback, noise charts, and violation logs
+
+
+
+Detailed Daily Plan (14 Days)
+Day 1: Planning & Project Setup
+Finalize architecture & responsibilities
+
+
+Initialize GitHub repo with frontend, backend, infra folders
+
+
+Set up AWS CLI, SAM/Serverless, and IAM roles
+
+
+Day 2: Mic Capture in Frontend
+Setup Web Audio API in React
+
+
+Display real-time mic volume levels using RMS/dB
+
+
+Show visual meter with basic thresholds
+
+
+Day 3: Send Noise Data
+Format and send mic data as JSON to dummy endpoint
+
+
+Implement Axios in frontend
+
+
+Simulate backend responses
+
+
+Day 4: Lambda + API Gateway Setup
+Create Python Lambda function handler
+
+
+Connect API Gateway to Lambda using SAM
+
+
+Test simple echo Lambda with dummy payload
+
+
+Day 5: Noise Evaluation Logic
+Parse incoming noise level in Python
+
+
+Add threshold comparison logic (e.g., dB > 65)
+
+
+Return response JSON: OK / Too Loud / Warning
+
+
+Day 6: DynamoDB Integration
+Create DynamoDB table: user_id, timestamp, volume, violation
+
+
+Write Lambda logic to store violations
+
+
+Validate log entries in console
+
+
+Day 7: Email/SMS Notifications
+Set up SES: verify test sender/recipient
+
+
+Integrate SES in Python Lambda
+
+
+Send email when noise crosses threshold (template message)
+
+
+Optional: Add SNS for SMS alerts
+
+
+Day 8: Frontend - Feedback UI
+Show live feedback: e.g., "Too Loud!"
+
+
+Build noise history graph with Chart.js or Recharts
+
+
+Add visual timer for next sampling
+
+
+Day 9: Stats & Leaderboard (Optional)
+Create aggregated query endpoints in Python Lambda
+
+
+Count violations per user
+
+
+Display quietest/noisiest leaderboard in frontend
+
+
+Day 10: Sound Classification (Optional Bonus)
+Integrate Bedrock for noise labeling OR
+
+
+Use simple Python ML model for audio category prediction
+
+
+Log classified labels in DynamoDB
+
+
+Day 11: UI Polish + Edge Cases
+Add Tailwind-based UI improvements
+
+
+Handle mic denial, device not found, or browser errors
+
+
+Add spinner/loading/error messages
+
+
+Day 12: Final Testing & Optimization
+Cross-browser test (Chrome, Firefox)
+
+
+Test data edge cases and error payloads
+
+
+Tune Lambda memory/timeout settings
+
+
+Day 13: Demo + Docs
+Record 2-3 min video: UI > Violation > Email alert > Logs
+
+
+Upload to YouTube or Vimeo
+
+
+Write complete README: setup, architecture, features
+
+
+Day 14: Devpost Submission
+Final GitHub push
+
+
+Submit project with all links, images, video, and descriptions
+
+
+Double-check visibility and permissions
+
+
+
+Deliverables
+Frontend (React) hosted on Vercel/Netlify
+
+
+Backend (Python AWS Lambda + API Gateway)
+
+
+DynamoDB table with noise logs
+
+
+Email/SMS integration via SES/SNS
+
+
+Public GitHub repository
+
+
+Complete README + demo video
+
+
+Devpost submission entry
+
+
+
+Stretch Goals
+Sound type classification (Bedrock or ML model)
+
+
+Slack or Discord integration for team alerts
+
+
+Export logs to CSV or Excel
+
+
+Auth with AWS Cognito
+
+
+Localization (multi-language UI)
+
+
+
+Team Roles
+Member A:
+Frontend lead (React, Web Audio, UI, charts)
+
+
+Devpost content and demo
+
+
+Member B:
+Backend lead (Python Lambda, DynamoDB, SES/SNS)
+
+
+Deployment, testing, and API integration
+
+
+Collaboration on testing, polish, and documentation shared by both.
+
