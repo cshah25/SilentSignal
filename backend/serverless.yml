@@ -1,0 +1,32 @@
+service: silent-signal-backend
+
+provider:
+  name: aws
+  runtime: python3.11
+  region: us-east-1
+  environment:
+    TABLE_NAME: NoiseEventsTable
+
+functions:
+  detectNoise:
+    handler: handlers/detect_noise.handler
+    events:
+      - http:
+          path: noise
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    NoiseEventsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: NoiseEventsTable
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
