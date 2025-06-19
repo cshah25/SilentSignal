@@ -1,27 +1,36 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function ReadingHistory({ userId }) {
   const [readings, setReadings] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}?userId=${userId}`, {
-      method: "GET"
-    })
-      .then(res => res.json())
-      .then(json => setReadings(json.readings))
-      .catch(console.error);
+    async function load() {
+      try {
+        const res = await fetch(
+          `${process.env.REACT_APP_API_URL}?userId=${userId}`
+        );
+        const json = await res.json();
+        // If the backend returned an error shape or no readings, default to []
+        setReadings(Array.isArray(json.readings) ? json.readings : []);
+      } catch (err) {
+        console.error('Failed to load readings:', err);
+        setReadings([]);
+      }
+    }
+    load();
   }, [userId]);
 
   return (
     <div>
       <h3>Reading History</h3>
       <ul>
-        {readings.map((r,i) => (
+        {readings.map((r, i) => (
           <li key={i}>
             {new Date(r.timestamp).toLocaleTimeString()}: {r.decibel} dB
           </li>
         ))}
       </ul>
+      {readings.length === 0 && <p>No readings yet.</p>}
     </div>
   );
 }

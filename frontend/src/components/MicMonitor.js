@@ -1,9 +1,7 @@
 // src/components/MicMonitor.js
 import React, { useEffect, useRef, useState } from 'react';
-
 const THRESHOLD = 50;          // dB threshold
 const SEND_INTERVAL_MS = 5000; // 5 seconds
-
 export default function MicMonitor({ userId }) {
   const [volume, setVolume] = useState(0);
   const [status, setStatus] = useState('Waiting for input…');

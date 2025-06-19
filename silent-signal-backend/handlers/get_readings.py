@@ -7,27 +7,30 @@ dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(os.environ["TABLE_NAME"])
 
 def handler(event, context):
-    # 1) Pull userId from query string
     params = event.get("queryStringParameters") or {}
     user_id = params.get("userId")
     if not user_id:
         return {
             "statusCode": 400,
+            "headers": {"Access-Control-Allow-Origin": "*"},
             "body": json.dumps({"error": "Missing userId"})
         }
 
-    # 2) Fetch the item
+
     resp = table.get_item(Key={"userId": user_id})
     item = resp.get("Item")
     if not item:
         return {
-            "statusCode": 404,
-            "body": json.dumps({"error": "User not found"})
-        }
+            "statusCode": 200,
+            "headers": {
+             "Access-Control-Allow-Origin": "*",
+             "Access-Control-Allow-Headers": "Content-Type"
+           },
+           "body": json.dumps({"readings": []})
+       }
 
     raw_readings = item.get("readings", [])
 
-    # 3) Convert Decimals to ints (or floats) for JSON serialization
     clean_readings = []
     for entry in raw_readings:
         clean_readings.append({
@@ -36,8 +39,11 @@ def handler(event, context):
             "decibel": int(entry["decibel"])
         })
 
-    # 4) Return the cleaned list
     return {
         "statusCode": 200,
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Content-Type"
+        },
         "body": json.dumps({"readings": clean_readings})
     }

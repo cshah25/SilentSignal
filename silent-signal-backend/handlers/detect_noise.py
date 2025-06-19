@@ -1,40 +1,70 @@
-import json, os
+import json
+import os
 from datetime import datetime
 from decimal import Decimal
+
 import boto3
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(os.environ['TABLE_NAME'])
 
 def handler(event, context):
-    body = json.loads(event.get('body','{}'))
-    user_id = body.get('userId')
-    decibel = Decimal(str(body.get('decibel', 0)))
-    timestamp = datetime.utcnow().isoformat()
+    try:
+        # 1) Parse & validate input
+        body = json.loads(event.get('body', '{}'))
+        user_id = body.get('userId')
+        if not user_id:
+            return {
+                'statusCode': 400,
+                'headers': {
+                  'Access-Control-Allow-Origin': '*',
+                  'Access-Control-Allow-Headers': 'Content-Type'
+                },
+                'body': json.dumps({'error': 'Missing userId'})
+            }
 
-    # Build a “reading” map if you want to store both time & value:
-    new_entry = {
-        'timestamp': timestamp,
-        'decibel': decibel
-    }
+        raw = body.get('decibel', 0)
+        decibel = Decimal(str(raw))
+        timestamp = datetime.utcnow().isoformat()
 
-    # Append to the 'readings' list (or create it if it doesn't exist yet)
-    table.update_item(
-        Key={'userId': user_id},
-        UpdateExpression="""
-          SET readings = list_append(
-            if_not_exists(readings, :empty_list),
-            :new_entry_list
-          )
-        """,
-        ExpressionAttributeValues={
-            ':empty_list': [],
-            ':new_entry_list': [new_entry]
+        # 2) Build the new entry
+        new_entry = {
+            'timestamp': timestamp,
+            'decibel': decibel
         }
-    )
 
-    # Optionally, you can still return a message or count
-    return {
-        'statusCode': 200,
-        'body': json.dumps({'message': 'Reading logged.'})
-    }
+        # 3) Append to list (or create it) in DynamoDB
+        table.update_item(
+            Key={'userId': user_id},
+            UpdateExpression="""
+              SET readings = list_append(
+                if_not_exists(readings, :empty_list),
+                :new_entries
+              )
+            """,
+            ExpressionAttributeValues={
+                ':empty_list': [],
+                ':new_entries': [new_entry]
+            }
+        )
+
+        # 4) Return success w/ CORS headers
+        return {
+            'statusCode': 200,
+            'headers': {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers': 'Content-Type'
+            },
+            'body': json.dumps({'message': 'Reading logged.'})
+        }
+
+    except Exception as e:
+        print("Error in detect_noise:", e, flush=True)
+        return {
+            'statusCode': 500,
+            'headers': {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers': 'Content-Type'
+            },
+            'body': json.dumps({'error': str(e)})
+        }

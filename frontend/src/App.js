@@ -3,7 +3,7 @@ import MicMonitor from './components/MicMonitor';
 import ReadingHistory from './components/ReadingHistory';
 
 function App() {
-  const userId = "rayu"; // You can make this dynamic later
+  const userId = "rayu";
 
   return (
     <div className="min-h-screen p-6 bg-white text-black">
