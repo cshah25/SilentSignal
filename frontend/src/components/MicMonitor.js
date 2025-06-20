@@ -1,5 +1,7 @@
 // src/components/MicMonitor.js
 import React, { useEffect, useRef, useState } from 'react';
+import PaddingContainer from './PaddingContainer';
+
 const THRESHOLD = 50;          // dB threshold
 const SEND_INTERVAL_MS = 5000; // 5 seconds
 export default function MicMonitor({ userId }) {
@@ -83,12 +85,14 @@ export default function MicMonitor({ userId }) {
   }
 
   return (
-    <div style={{ padding: 20, fontFamily: 'sans-serif' }}>
-      <h2>Mic Volume Monitor</h2>
-      <div style={{ fontSize: '1.5rem' }}>
-        Volume: {volume} dB
-      </div>
-      <div>{status}</div>
+    <div style={{ fontFamily: 'sans-serif' }}>
+      <h4><strong>Mic Volume Monitor</strong></h4>
+      <PaddingContainer>
+        <div style={{ fontSize: '1.1rem' }}>
+          Volume: {volume} dB
+        </div>
+        <div>{status}</div>
+      </PaddingContainer>
     </div>
   );
 }

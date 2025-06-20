@@ -22,7 +22,7 @@ export default function ReadingHistory({ userId }) {
 
   return (
     <div>
-      <h3>Reading History</h3>
+      <h4>Reading History</h4>
       <ul>
         {readings.map((r, i) => (
           <li key={i}>
