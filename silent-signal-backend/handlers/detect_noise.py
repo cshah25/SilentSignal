@@ -10,7 +10,6 @@ table = dynamodb.Table(os.environ['TABLE_NAME'])
 
 def handler(event, context):
     try:
-        # 1) Parse & validate input
         body = json.loads(event.get('body', '{}'))
         user_id = body.get('userId')
         if not user_id:
@@ -27,13 +26,11 @@ def handler(event, context):
         decibel = Decimal(str(raw))
         timestamp = datetime.utcnow().isoformat()
 
-        # 2) Build the new entry
         new_entry = {
             'timestamp': timestamp,
             'decibel': decibel
         }
 
-        # 3) Append to list (or create it) in DynamoDB
         table.update_item(
             Key={'userId': user_id},
             UpdateExpression="""
@@ -48,7 +45,6 @@ def handler(event, context):
             }
         )
 
-        # 4) Return success w/ CORS headers
         return {
             'statusCode': 200,
             'headers': {

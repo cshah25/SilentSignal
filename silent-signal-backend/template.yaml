@@ -6,9 +6,6 @@ Globals:
   Function:
     Timeout: 10
     Runtime: python3.11
-    Environment:
-      Variables:
-        TABLE_NAME: !Ref NoiseEventsTable
 
 Resources:
   SilentSignalApi:
@@ -20,10 +17,33 @@ Resources:
         AllowHeaders: "'Content-Type'"
         AllowOrigin: "'*'"
 
+  NoiseEventsTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: NoiseEventsTable
+      PrimaryKey:
+        Name: userId
+        Type: String
+
+  RoomsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: RoomsTable
+      AttributeDefinitions:
+        - AttributeName: roomId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: roomId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
   DetectNoiseFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: handlers.detect_noise.handler
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref NoiseEventsTable
       Events:
         ApiNoisePost:
           Type: Api
@@ -38,7 +58,10 @@ Resources:
   GetReadingsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: handlers/get_readings.handler
+      Handler: handlers.get_readings.handler
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref NoiseEventsTable
       Events:
         ApiNoiseGet:
           Type: Api
@@ -50,16 +73,56 @@ Resources:
         - DynamoDBReadPolicy:
             TableName: !Ref NoiseEventsTable
 
-
-  NoiseEventsTable:
-    Type: AWS::Serverless::SimpleTable
+  CreateRoomFunction:
+    Type: AWS::Serverless::Function
     Properties:
-      TableName: NoiseEventsTable
-      PrimaryKey:
-        Name: userId
-        Type: String
+      Handler: handlers.create_room.handler
+      Environment:
+        Variables:
+          ROOMS_TABLE: !Ref RoomsTable
+      Events:
+        ApiCreateRoom:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SilentSignalApi
+            Path: /rooms
+            Method: post
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RoomsTable
+        - Statement:
+            Effect: Allow
+            Action:
+              - chime:CreateMeeting
+            Resource: '*'
+
+  JoinRoomFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handlers.join_room.handler
+      Environment:
+        Variables:
+          ROOMS_TABLE: !Ref RoomsTable
+      Events:
+        ApiJoinRoom:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SilentSignalApi
+            Path: /rooms/{roomId}/join
+            Method: post
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref RoomsTable
+        - Statement:
+            Effect: Allow
+            Action:
+              - chime:CreateAttendee
+            Resource: '*'
 
 Outputs:
-  ApiUrl:
-    Description: "Invoke URL for the noise detection endpoint"
+  NoiseApiUrl:
+    Description: "Noise API endpoint"
     Value: !Sub "https://${SilentSignalApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/noise"
+  BaseApiUrl:
+    Description: "Base URL for all API calls (rooms, noise, etc.)"
+    Value: !Sub "https://${SilentSignalApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
