@@ -7,7 +7,7 @@ import librosa
 import joblib
 
 # Load model bundle (contains model + label encoder)
-model_bundle = joblib.load("/opt/models/sound_classifier.joblib")
+model_bundle = joblib.load("/models/sound_classifier.joblib")
 model = model_bundle["model"]
 label_encoder = model_bundle["label_encoder"]
 

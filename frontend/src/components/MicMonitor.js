@@ -1,9 +1,7 @@
 // src/components/MicMonitor.js
 import React, { useEffect, useRef, useState } from 'react';
 
-const API_URL = process.env.REACT_APP_API_URL;
-
-console.log(API_URL);
+const NOISE_API_URL = process.env.REACT_APP_NOISE_URL;
 
 export default function MicMonitor({ userId }) {
   const [volume, setVolume] = useState(0);
@@ -35,7 +33,6 @@ export default function MicMonitor({ userId }) {
           setVolume(decibels);
           setStatus(decibels > 60 ? "Too Loud!" : "You're good");
 
-          // Send to API every few seconds
           if (!intervalRef.current) {
             intervalRef.current = setInterval(() => {
               sendToAPI(userId, decibels);
@@ -61,7 +58,7 @@ export default function MicMonitor({ userId }) {
 
   async function sendToAPI(userId, decibel) {
     try {
-      await fetch(API_URL, {
+      await fetch(NOISE_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, decibel })

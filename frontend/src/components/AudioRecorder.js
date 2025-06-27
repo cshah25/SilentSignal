@@ -1,4 +1,7 @@
+// src/components/AudioRecorder.js
 import React, { useRef, useState } from "react";
+
+const CLASSIFY_API_URL = process.env.REACT_APP_CLASSIFY_URL;
 
 function AudioRecorder() {
   const mediaRecorderRef = useRef(null);
@@ -18,11 +21,12 @@ function AudioRecorder() {
       mediaRecorderRef.current.onstop = async () => {
         const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
         const reader = new FileReader();
+
         reader.onloadend = async () => {
           const base64Audio = reader.result.split(',')[1];
 
           setStatus("Sending audio...");
-          const res = await fetch("https://your-api-url/classify", {
+          const res = await fetch(CLASSIFY_API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ audio: base64Audio }),
@@ -40,7 +44,7 @@ function AudioRecorder() {
       setTimeout(() => {
         mediaRecorderRef.current.stop();
         setIsRecording(false);
-      }, 2000); // 2 seconds recording
+      }, 2000);
 
       setIsRecording(true);
     } catch (err) {
