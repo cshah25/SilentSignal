@@ -1,13 +1,26 @@
-// src/components/MicMonitor.js
 import React, { useEffect, useRef, useState } from 'react';
+import addNotification from 'react-push-notification';
+import { Notifications } from 'react-push-notification';
 
 const NOISE_API_URL = process.env.REACT_APP_NOISE_URL;
+const THRESHOLD = 60;
+const NOTIFY_INTERVAL = 5000;
 
 export default function MicMonitor({ userId }) {
   const [volume, setVolume] = useState(0);
   const [status, setStatus] = useState("Waiting for input...");
   const intervalRef = useRef(null);
+  const lastNotifyRef = useRef(0);
 
+
+  function overLimit() {
+    addNotification({
+      title: "🔊 Mic Warning!",
+      message: `Mic seems to be picking up background noise. Consider muting yourself`,
+      native: true
+    })
+  };
+  
   useEffect(() => {
     let audioContext;
     let analyser;
@@ -31,7 +44,16 @@ export default function MicMonitor({ userId }) {
           const avg = dataArray.reduce((a, b) => a + b, 0) / bufferLength;
           const decibels = Math.round((avg / 255) * 100);
           setVolume(decibels);
-          setStatus(decibels > 60 ? "Too Loud!" : "You're good");
+          setStatus(decibels > THRESHOLD ? "Too Loud!" : "You're good");
+
+          // Throttle notifications to once every NOTIFY_INTERVAL ms
+          if (
+            decibels > THRESHOLD &&
+            Date.now() - lastNotifyRef.current > NOTIFY_INTERVAL
+          ) {
+            overLimit();
+            lastNotifyRef.current = Date.now();
+          }
 
           if (!intervalRef.current) {
             intervalRef.current = setInterval(() => {
