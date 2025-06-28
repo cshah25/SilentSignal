@@ -13,7 +13,6 @@ function App() {
 
   return (
     <div className="min-h-screen p-6 bg-white text-black">
-      {/* <h1 className="text-2xl font-bold mb-4">Silent Signal – Real-Time Noise Monitor</h1> */}
       <Header />
       <HeroSection />
       <Highlights />

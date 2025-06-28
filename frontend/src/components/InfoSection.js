@@ -1,24 +1,56 @@
 import React from 'react';
+import '../styles/landingPage.css'
 import { Info } from 'lucide-react';
 const cards = new Array(6).fill(null);
 
 export default function InfoSection() {
   return (
     <section className="p-8 bg-white">
-      <h2 className="text-xl font-semibold mb-2">Make Something Up for this</h2>
-      <p className="mb-8 text-gray-600">Something like about the developers or how the app works</p>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {cards.map((_, i) => (
-          <div key={i} className="border p-4 rounded shadow-sm">
-            <Info className="w-6 h-6 mb-2 text-blue-500" />
-            <h3 className="font-semibold mb-1">Title</h3>
-            <p className="text-sm text-gray-600">
-              Body text for whatever you'd like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.
-            </p>
-          </div>
-        ))}
+      <div class="card-grid-icon-23">
+      <div class="text-content-heading-24">
+        <p class="text-25"><span class="text-rgb-30-30-30">Make Something Up for this</span></p>
+        <p class="text-26"><span class="text-rgb-117-117-117">Something like about the developers or details on how the
+            app works</span></p>
       </div>
+      <div class="cards-27">
+        <div class="card-49">
+          <div class="info-50">
+            <Info/>
+          </div>
+          <div class="body-52">
+            <div class="text-53">
+              <p class="text-54"><span class="text-rgb-30-30-30">Title</span></p>
+              <p class="text-55"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
+                  takeaway points, quotes, anecdotes, or even a very very short story. </span></p>
+            </div>
+          </div>
+        </div>
+        <div class="card-56">
+          <div class="info-57">
+            <Info />
+          </div>
+          <div class="body-59">
+            <div class="text-60">
+              <p class="text-61"><span class="text-rgb-30-30-30">Title</span></p>
+              <p class="text-62"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
+                  takeaway points, quotes, anecdotes, or even a very very short story. </span></p>
+            </div>
+          </div>
+        </div>
+        <div class="card-63">
+          <div class="info-64">
+            <Info />
+          </div>
+          <div class="body-66">
+            <div class="text-67">
+              <p class="text-68"><span class="text-rgb-30-30-30">Title</span></p>
+              <p class="text-69"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
+                  takeaway points, quotes, anecdotes, or even a very very short story. </span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     </section>
   );
 }

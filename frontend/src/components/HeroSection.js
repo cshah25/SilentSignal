@@ -10,7 +10,7 @@ export default function HeroSection() {
       </div>
       <div class="button-group-17">
         <div class="button-18">
-          <p class="text-19"><span class="text-rgb-245-245-245">Dashboard</span></p>
+          <p class="text-19"><a href='/dashboard' class="text-rgb-245-245-245">Dashboard</a></p>
         </div>
       </div>
     </div>
