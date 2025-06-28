@@ -12,13 +12,11 @@ def handler(event, context):
     decibel = Decimal(str(body.get('decibel', 0)))
     timestamp = datetime.utcnow().isoformat()
 
-    # Build a “reading” map if you want to store both time & value:
     new_entry = {
         'timestamp': timestamp,
         'decibel': decibel
     }
 
-    # Append to the 'readings' list (or create it if it doesn't exist yet)
     table.update_item(
         Key={'userId': user_id},
         UpdateExpression="""
@@ -33,8 +31,12 @@ def handler(event, context):
         }
     )
 
-    # Optionally, you can still return a message or count
     return {
         'statusCode': 200,
+        'headers': {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST'
+        },
         'body': json.dumps({'message': 'Reading logged.'})
     }

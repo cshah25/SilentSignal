@@ -5,7 +5,7 @@ Description: silent-signal-backend
 Globals:
   Function:
     Timeout: 10
-    Runtime: python3.11
+    Runtime: python3.13
     Environment:
       Variables:
         TABLE_NAME: !Ref NoiseEventsTable

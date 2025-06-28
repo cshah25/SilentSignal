@@ -6,7 +6,6 @@ import numpy as np
 import librosa
 import joblib
 
-# Load model bundle (contains model + label encoder)
 model_bundle = joblib.load("/opt/models/sound_classifier.joblib")
 model = model_bundle["model"]
 label_encoder = model_bundle["label_encoder"]
@@ -21,7 +20,6 @@ def handler(event, context):
         body = json.loads(event['body'])
         audio_b64 = body['audio']
         
-        # Decode base64 and save to temp file
         with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as f:
             f.write(base64.b64decode(audio_b64))
             temp_path = f.name
@@ -34,11 +32,21 @@ def handler(event, context):
 
         return {
             "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST"
+            },
             "body": json.dumps({ "label": predicted_label })
         }
 
     except Exception as e:
         return {
             "statusCode": 500,
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST"
+            },
             "body": json.dumps({ "error": str(e) })
         }
