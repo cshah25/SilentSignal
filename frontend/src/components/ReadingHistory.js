@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 
 const THRESHOLD = 50;           // dB threshold
 const POLL_INTERVAL_MS = 5000;        // refresh every 5 seconds
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 
 export default function ReadingHistory({ userId }) {
   const [readings, setReadings] = useState([]);
@@ -12,7 +13,7 @@ export default function ReadingHistory({ userId }) {
     async function load() {
       try {
         const res = await fetch(
-          `${process.env.REACT_APP_API_URL}?userId=${userId}`
+          `${REACT_APP_API_URL}/readings?userId=${userId}`
         );
 
         // 404 → no readings yet

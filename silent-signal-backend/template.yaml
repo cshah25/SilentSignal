@@ -44,7 +44,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref SilentSignalApi
-            Path: /noise
+            Path: /readings
             Method: get
       Policies:
         - DynamoDBReadPolicy:

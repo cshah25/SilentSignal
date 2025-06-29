@@ -1,7 +1,7 @@
 // src/components/AudioRecorder.js
 import React, { useRef, useState } from "react";
 
-const CLASSIFY_API_URL = process.env.REACT_APP_CLASSIFY_URL;
+const CLASSIFY_API_URL = process.env.REACT_APP_API_URL;
 
 function AudioRecorder() {
   const mediaRecorderRef = useRef(null);
@@ -26,7 +26,7 @@ function AudioRecorder() {
           const base64Audio = reader.result.split(',')[1];
 
           setStatus("Sending audio...");
-          const res = await fetch(CLASSIFY_API_URL, {
+          const res = await fetch(`${CLASSIFY_API_URL}/noise/classify`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ audio: base64Audio }),

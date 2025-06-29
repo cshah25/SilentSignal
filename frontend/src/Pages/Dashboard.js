@@ -23,7 +23,7 @@ export default function Dashboard() {
 
         setChecking(true);
         try {
-            const res = await fetch(`${API}?userId=${encodeURIComponent(trimmed)}`);
+            const res = await fetch(`${API}/readings?userId=${encodeURIComponent(trimmed)}`);
 
             // Treat 404 as “no readings yet” → new user
             if (res.status === 404) {

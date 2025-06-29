@@ -14,6 +14,7 @@ ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 const THRESHOLD = 40;    // dB threshold
 const SEND_INTERVAL_MS = 5000;  // send data at least every 5 seconds
 const NOTIFY_INTERVAL_MS = 10000; // notify at most every 10 seconds
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 
 export default function MicMonitor({ userId }) {
   const [volume, setVolume] = useState(0);
@@ -118,7 +119,7 @@ export default function MicMonitor({ userId }) {
 
   async function sendToAPI(userId, decibel) {
     try {
-      const res = await fetch(process.env.REACT_APP_API_URL, {
+      const res = await fetch(`${REACT_APP_API_URL}/noise`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, decibel })
