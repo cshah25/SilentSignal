@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles/dashboard.css";
 import MicMonitor from "../components/MicMonitor";
 import ReadingHistory from "../components/ReadingHistory";
+import LoginCard from "../components/LoginCard";
 
 export default function Dashboard() {
     const [userId, setUserId] = useState("");
@@ -53,27 +54,34 @@ export default function Dashboard() {
 
     if (!userId) {
         return (
-            <div className="max-w-md mx-auto p-6">
-                <h2 className="text-2xl font-semibold mb-4">Enter Your User ID</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <input
-                        type="text"
-                        value={inputValue}
-                        onChange={e => setInputValue(e.target.value)}
-                        placeholder="User ID"
-                        className="w-full px-4 py-2 border rounded"
-                        disabled={checking}
-                    />
-                    <button
-                        type="submit"
-                        disabled={checking}
-                        className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-                    >
-                        {checking ? "Checking…" : "Go"}
-                    </button>
-                    {error && <p className="text-red-600">{error}</p>}
-                </form>
-            </div>
+            <LoginCard
+                inputValue={inputValue}
+                onInputChange={setInputValue}
+                onSubmit={handleSubmit}
+                checking={checking}
+                error={error}
+            />
+            // <div className="max-w-md mx-auto p-6">
+            //     <h2 className="text-2xl font-semibold mb-4">Enter Your User ID</h2>
+            //     <form onSubmit={handleSubmit} className="space-y-4">
+            //         <input
+            //             type="text"
+            //             value={inputValue}
+            //             onChange={e => setInputValue(e.target.value)}
+            //             placeholder="User ID"
+            //             className="w-full px-4 py-2 border rounded"
+            //             disabled={checking}
+            //         />
+            //         <button
+            //             type="submit"
+            //             disabled={checking}
+            //             className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+            //         >
+            //             {checking ? "Checking…" : "Go"}
+            //         </button>
+            //         {error && <p className="text-red-600">{error}</p>}
+            //     </form>
+            // </div>
         );
     }
 
