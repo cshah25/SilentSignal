@@ -1,21 +1,29 @@
 // src/components/ReadingHistory.js
 import React, { useEffect, useState } from 'react';
 
-const READINGS_API_URL = process.env.REACT_APP_READINGS_URL;
-
 export default function ReadingHistory({ userId }) {
   const [readings, setReadings] = useState([]);
 
   useEffect(() => {
-    fetch(`${READINGS_API_URL}?userId=${userId}`)
-      .then(res => res.json())
-      .then(json => setReadings(json.readings))
-      .catch(console.error);
+    async function load() {
+      try {
+        const res = await fetch(
+          `${process.env.REACT_APP_API_URL}?userId=${userId}`
+        );
+        const json = await res.json();
+        // If the backend returned an error shape or no readings, default to []
+        setReadings(Array.isArray(json.readings) ? json.readings : []);
+      } catch (err) {
+        console.error('Failed to load readings:', err);
+        setReadings([]);
+      }
+    }
+    load();
   }, [userId]);
 
   return (
     <div>
-      <h3>Reading History</h3>
+      <h4>Reading History</h4>
       <ul>
         {readings.map((r, i) => (
           <li key={i}>
@@ -23,6 +31,7 @@ export default function ReadingHistory({ userId }) {
           </li>
         ))}
       </ul>
+      {readings.length === 0 && <p>No readings yet.</p>}
     </div>
   );
 }
