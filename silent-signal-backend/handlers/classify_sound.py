@@ -6,8 +6,9 @@ import numpy as np
 import librosa
 import joblib
 
-# Load model bundle (contains model + label encoder)
-model_bundle = joblib.load("/models/sound_classifier.joblib")
+# Load model + label encoder bundle
+model_path = os.path.join(os.path.dirname(__file__), "../models/sound_classifier.joblib")
+model_bundle = joblib.load(model_path)
 model = model_bundle["model"]
 label_encoder = model_bundle["label_encoder"]
 

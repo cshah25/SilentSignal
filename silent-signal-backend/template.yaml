@@ -50,6 +50,17 @@ Resources:
         - DynamoDBReadPolicy:
             TableName: !Ref NoiseEventsTable
 
+  ClassifySoundFunction:  
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handlers.classify_sound.handler
+      Events:
+        ApiClassifyPost:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SilentSignalApi
+            Path: /classify
+            Method: post
 
   NoiseEventsTable:
     Type: AWS::Serverless::SimpleTable

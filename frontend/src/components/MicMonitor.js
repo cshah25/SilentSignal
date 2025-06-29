@@ -12,9 +12,10 @@ import {
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-const NOISE_API_URL = process.env.REACT_APP_NOISE_URL;
+const NOISE_API_URL = process.env.REACT_APP_API_URL;
 const THRESHOLD = 60;
 const NOTIFY_INTERVAL = 5000;
+
 
 export default function MicMonitor({ userId }) {
   const [volumeHistory, setVolumeHistory] = useState([]);

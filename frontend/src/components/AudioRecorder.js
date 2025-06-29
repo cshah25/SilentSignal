@@ -33,6 +33,7 @@ function AudioRecorder() {
           });
 
           const data = await res.json();
+          console.log("Predicted label:", data.label); 
           setStatus(`Prediction: ${data.label || "Error"}`);
         };
 
