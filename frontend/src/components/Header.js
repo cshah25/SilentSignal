@@ -17,7 +17,7 @@ export default function Header() {
 
       <nav className="navigation-pill-list-6">
         <Link to="/dashboard" className='navigation-pill-7 text-8 text-rgb-30-30-30'>
-        Dashboard
+          Dashboard
         </Link>
         <Link to="/" className="navigation-pill-9 text-10 text-rgb-30-30-30">
           Home Page
@@ -25,16 +25,6 @@ export default function Header() {
         <Link to="/about" className="navigation-pill-11 text-12 text-rgb-30-30-30">
           About Us
         </Link>
-        {/* <a href="#dashboard" className="navigation-pill-7 text-8 text-rgb-30-30-30">
-          Dashboard
-        </a> 
-        <a href="#home" className="navigation-pill-9 text-10 text-rgb-30-30-30">
-          Home Page
-        </a>
-        <a href="#about" className="navigation-pill-11 text-12 text-rgb-30-30-30">
-          About Us
-        </a>
-        */}
       </nav>
     </header>
   );

@@ -5,9 +5,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import MicMonitor from './components/MicMonitor';
-import ReadingHistory from './components/ReadingHistory';
-import AudioRecorder from './components/AudioRecorder';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './Pages/LandingPage';
@@ -28,11 +25,6 @@ function App() {
         </Routes>
       </main>
       <Footer />
-      {/*
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-2">Sound Type Classifier</h2>
-        <AudioRecorder />
-      </div> */}
     </div>
   );
 }
