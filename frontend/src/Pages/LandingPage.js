@@ -19,8 +19,8 @@ const Home = () => {
             </section>
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6 p-8 bg-white">
                 <div class="panel-image-double-20">
-                    <img src="images/loudest.png" class="image-21" alt="image" />
-                    <img src="images/quitests.png" class="image-22" alt="image" />
+                    <img src="images/loudest.png" class="image-21" alt="loudest" />
+                    <img src="images/quitests.png" class="image-22" alt="quitests" />
                 </div>
             </section>
             <section className="p-8 bg-white">

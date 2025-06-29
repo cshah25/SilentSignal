@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -11,7 +10,7 @@ import LandingPage from './Pages/LandingPage';
 import Dashboard from './Pages/Dashboard';
 import AboutUs from './Pages/About';
 function App() {
-  const userId = "rayu"; // You can make this dynamic later
+  // const userId = "rayu";
 
   return (
     <div className="min-h-screen p-6 bg-white text-black">

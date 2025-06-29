@@ -1,7 +1,8 @@
+// src/components/ReadingHistory.js
 import React, { useEffect, useState, useRef } from 'react';
 
-const THRESHOLD = 50;           // dB threshold for violations
-const POLL_INTERVAL_MS = 5000;  // poll every 5 seconds
+const THRESHOLD = 50;           // dB threshold
+const POLL_INTERVAL_MS = 5000;        // refresh every 5 seconds
 
 export default function ReadingHistory({ userId }) {
   const [readings, setReadings] = useState([]);
@@ -10,7 +11,17 @@ export default function ReadingHistory({ userId }) {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}?userId=${userId}`);
+        const res = await fetch(
+          `${process.env.REACT_APP_API_URL}?userId=${userId}`
+        );
+
+        // 404 → no readings yet
+        if (res.status === 404) {
+          setReadings([]);
+          return;
+        }
+        if (!res.ok) throw new Error(`Status ${res.status}`);
+
         const json = await res.json();
         setReadings(Array.isArray(json.readings) ? json.readings : []);
       } catch (err) {
@@ -19,20 +30,16 @@ export default function ReadingHistory({ userId }) {
       }
     }
 
-    // initial fetch + start polling
     load();
     intervalRef.current = setInterval(load, POLL_INTERVAL_MS);
-
-    // cleanup on unmount
     return () => clearInterval(intervalRef.current);
   }, [userId]);
 
-  // pick out the last 10
   const lastReadings = readings.slice(-10);
-  const violationsAll = readings.filter(r => r.decibel > THRESHOLD);
-  const lastViolations = violationsAll.slice(-10);
+  const lastViolations = readings
+    .filter(r => r.decibel > THRESHOLD)
+    .slice(-10);
 
-  // we'll render as many rows as the longer of the two lists
   const rowCount = Math.max(lastReadings.length, lastViolations.length);
 
   return (

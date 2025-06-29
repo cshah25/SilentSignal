@@ -25,10 +25,10 @@ export default function Footer() {
             </div>
           </div>
           <div class="text-link-list-item-83">
-            <p class="text-84"><a href='https://github.com/cshah25/SilentSignal/' target="_blank" class="text-rgb-30-30-30">Github Page</a></p>
+            <p class="text-84"><a href='https://github.com/cshah25/SilentSignal/' target="_blank" rel='noreferrer' class="text-rgb-30-30-30">Github Page</a></p>
           </div>
           <div class="text-link-list-item-85">
-            <p class="text-86"><a href='https://github.com/cshah25/SilentSignal/wiki' target="_blank" class="text-rgb-30-30-30">Support</a></p>
+            <p class="text-86"><a href='https://github.com/cshah25/SilentSignal/wiki' target="_blank" rel='noreferrer' class="text-rgb-30-30-30">Support</a></p>
           </div>
           <div class="text-link-list-item-87">
             <p class="text-88"><a href='/developers' class="text-rgb-30-30-30">Developers</a></p>
