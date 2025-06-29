@@ -108,9 +108,71 @@ export default function Dashboard() {
                 </div>
                 <ReadingHistory userId={userId} />
             </div>
+            <div class="card-grid-icon-20">
 
-            <div className="card-grid-icon-20">
-                {/* …rest of your leaderboard cards… */}
+
+                <div class="text-content-heading-21">
+
+                    <p class="text-22"><span class="text-rgb-30-30-30">Leaderboard</span></p>
+
+                    <p class="text-23"><span class="text-rgb-117-117-117">Create a leader board of the users</span></p>
+
+                </div>
+
+                <div class="cards-24">
+
+                    <div class="card-25">
+
+                        <div class="body-28">
+
+                            <div class="text-36">
+
+                                <p class="text-37"><span class="text-rgb-30-30-30">The loudest person overall</span></p>
+
+                                <p class="text-31"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
+                                    takeaway points, quotes, anecdotes, or even a very very short story. </span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-25">
+                        <div class="body-28">
+                            <div class="text-36">
+                                <p class="text-37"><span class="text-rgb-30-30-30">The Quietest person</span></p>
+                                <p class="text-31"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
+                                    takeaway points, quotes, anecdotes, or even a very very short story. </span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-25">
+                        <div class="body-28">
+                            <div class="text-36">
+                                <p class="text-37"><span class="text-rgb-30-30-30">The one with most abstract noises</span></p>
+                                <p class="text-31"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
+                                    takeaway points, quotes, anecdotes, or even a very very short story. </span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-25">
+                        <div class="body-28">
+                            <div class="text-36">
+                                <p class="text-37"><span class="text-rgb-30-30-30">The lowest volume ever recorded</span></p>
+                                <p class="text-31"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
+                                    takeaway points, quotes, anecdotes, or even a very very short story. </span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-25">
+                        <div class="body-28">
+                            <div class="text-36">
+                                <p class="text-37"><span class="text-rgb-30-30-30">The highest volume ever recorded</span></p>
+                                <p class="text-31"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
+                                    takeaway points, quotes, anecdotes, or even a very very short story. </span></p>Add commentMore actions
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="card-grid-icon-20">
+                </div>
             </div>
         </div>
     );

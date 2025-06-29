@@ -11,7 +11,7 @@ import {
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-const THRESHOLD = 30;    // dB threshold
+const THRESHOLD = 40;    // dB threshold
 const SEND_INTERVAL_MS = 5000;  // send data at least every 5 seconds
 const NOTIFY_INTERVAL_MS = 10000; // notify at most every 10 seconds
 
