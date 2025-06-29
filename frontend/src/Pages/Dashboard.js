@@ -1,5 +1,8 @@
 import React from "react";
 import "../styles/dashboard.css";
+import MicMonitor from "../components/MicMonitor";
+import ReadingHistory from "../components/ReadingHistory";
+const userId = "rayu";
 const Dashboard = () => {
     return (
         <div>
@@ -10,8 +13,13 @@ const Dashboard = () => {
                 </div>
             </div>
             <div class="live-view-and-graphs-17">
-                <img src="images/image-18.png" class="image-18" alt="image" />
-                <img src="images/image-19.png" class="image-19" alt="image" />
+                <div>
+                    <strong>Live Mic</strong>
+                    <MicMonitor userId={userId} />
+                </div>
+                {/* <img src="images/image-18.png" class="image-18" alt="image" /> */}
+                {/* <img src="images/image-19.png" class="image-19" alt="image" /> */}
+                <ReadingHistory userId={userId} />
             </div>
             <div class="card-grid-icon-20">
                 <div class="text-content-heading-21">

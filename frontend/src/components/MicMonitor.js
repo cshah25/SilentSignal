@@ -1,13 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import addNotification from 'react-push-notification';
 import { Notifications } from 'react-push-notification';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement
+} from 'chart.js';
+
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
 const NOISE_API_URL = process.env.REACT_APP_NOISE_URL;
 const THRESHOLD = 60;
 const NOTIFY_INTERVAL = 5000;
 
 export default function MicMonitor({ userId }) {
-  const [volume, setVolume] = useState(0);
+  const [volumeHistory, setVolumeHistory] = useState([]);
   const [status, setStatus] = useState("Waiting for input...");
   const intervalRef = useRef(null);
   const lastNotifyRef = useRef(0);
@@ -43,8 +53,12 @@ export default function MicMonitor({ userId }) {
           analyser.getByteFrequencyData(dataArray);
           const avg = dataArray.reduce((a, b) => a + b, 0) / bufferLength;
           const decibels = Math.round((avg / 255) * 100);
-          setVolume(decibels);
-          setStatus(decibels > THRESHOLD ? "Too Loud!" : "You're good");
+
+          setVolumeHistory(prev => {
+            const newData = [...prev, decibels];
+            return newData.length > 50 ? newData.slice(-50) : newData;
+          });
+
 
           // Throttle notifications to once every NOTIFY_INTERVAL ms
           if (
@@ -61,6 +75,7 @@ export default function MicMonitor({ userId }) {
             }, 3000);
           }
         };
+
 
         microphone.connect(analyser);
         analyser.connect(javascriptNode);
@@ -90,12 +105,41 @@ export default function MicMonitor({ userId }) {
     }
   }
 
+  const chartData = {
+    labels: volumeHistory.map((_, i) => i),
+    datasets: [
+      {
+        label: 'Mic Volume',
+        data: volumeHistory,
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.3,
+        pointRadius: 0
+      }
+    ]
+  };
+
+  const chartOptions = {
+    responsive: true,
+    animation: false,
+    scales: {
+      y: {
+        min: 0,
+        max: 100
+      }
+    },
+    plugins: {
+      legend: {
+        display: false
+      }
+    }
+  };
+
+
   return (
     <div className="p-4 bg-gray-100 rounded shadow">
-      <h2 className="text-xl font-bold">Mic Volume Monitor</h2>
-      <div className="mt-2">📈 Volume: {volume}</div>
-      <div className={`mt-1 font-semibold ${volume > 70 ? 'text-red-500' : 'text-green-600'}`}>
-        {status}
+      <div className="mt-4">
+        <Line data={chartData} options={chartOptions} />
       </div>
     </div>
   );

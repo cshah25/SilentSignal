@@ -28,12 +28,9 @@ function App() {
         </Routes>
       </main>
       <Footer />
-      {/* 
-      <Footer />
 
-      <MicMonitor userId={userId} />
-      <ReadingHistory userId={userId} />
-
+      {/*  */}
+      {/*
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-2">Sound Type Classifier</h2>
         <AudioRecorder />
