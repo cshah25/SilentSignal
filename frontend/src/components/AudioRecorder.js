@@ -26,7 +26,7 @@ function AudioRecorder() {
           const base64Audio = reader.result.split(',')[1];
 
           setStatus("Sending audio...");
-          const res = await fetch(`${CLASSIFY_API_URL}/noise/classify`, {
+          const res = await fetch(`${CLASSIFY_API_URL}/classify`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ audio: base64Audio }),
