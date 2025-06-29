@@ -52,3 +52,74 @@
 └── tree.txt
 
 11 directories, 41 files
+.
+├── designdoc
+├── frontend
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── public
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── logo192.png
+│   │   ├── logo512.png
+│   │   ├── logo.png
+│   │   ├── manifest.json
+│   │   └── robots.txt
+│   ├── README.md
+│   └── src
+│       ├── App.css
+│       ├── App.js
+│       ├── App.test.js
+│       ├── components
+│       │   ├── AudioRecorder.js
+│       │   ├── Footer.js
+│       │   ├── Header.js
+│       │   ├── HeroSection.js
+│       │   ├── Highlights.js
+│       │   ├── InfoSection.js
+│       │   ├── MicMonitor.js
+│       │   ├── ReadingHistory.js
+│       │   └── StatusDisplay.js
+│       ├── index.css
+│       ├── index.js
+│       ├── logo.svg
+│       ├── Pages
+│       │   ├── About.js
+│       │   ├── Dashboard.js
+│       │   └── LandingPage.js
+│       ├── reportWebVitals.js
+│       ├── setupTests.js
+│       └── styles
+│           ├── aboutus.css
+│           ├── dashboard.css
+│           └── landingPage.css
+├── LICENSE
+├── README.md
+├── silent-signal-backend
+│   ├── app.py
+│   ├── events
+│   │   └── event.json
+│   ├── handlers
+│   │   ├── classify_sound.py
+│   │   ├── detect_noise.py
+│   │   ├── get_readings.py
+│   │   └── requirements.txt
+│   ├── __init__.py
+│   ├── models
+│   │   └── sound_classifier.joblib
+│   ├── README.md
+│   ├── samconfig.toml
+│   ├── serverless.yml
+│   ├── template.yaml
+│   └── tests
+│       ├── __init__.py
+│       ├── integration
+│       │   ├── __init__.py
+│       │   └── test_api_gateway.py
+│       ├── requirements.txt
+│       └── unit
+│           ├── __init__.py
+│           └── test_handler.py
+└── tree.txt
+
+14 directories, 55 files

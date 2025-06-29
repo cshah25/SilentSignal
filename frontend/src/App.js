@@ -28,8 +28,6 @@ function App() {
         </Routes>
       </main>
       <Footer />
-
-      {/*  */}
       {/*
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-2">Sound Type Classifier</h2>
