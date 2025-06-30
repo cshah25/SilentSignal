@@ -64,6 +64,34 @@ const About = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Meet the Team Section */}
+            <div className="team-section">
+                <h2 className="team-title">Meet the Team</h2>
+                <div className="team-grid">
+                    {/* Chirayu Shah */}
+                    <div className="team-member">
+                        <img src="/images/rayu_pfp.png" alt="Chirayu Shah" className="team-img" />
+                        <h3 className="member-name">Chirayu Shah</h3>
+                        <p className="member-role">Frontend Lead</p>
+                        <p className="member-bio">
+                            I focused on the user-facing experience of Silent Signal — from capturing live mic input to displaying real-time feedback and analytics.
+                            Using React, the Web Audio API, and Chart.js, I ensured the interface was fast, responsive, and helpful without being distracting.
+                        </p>
+                    </div>
+
+                    {/* Krish Rajani */}
+                    <div className="team-member">
+                        <img src="/images/krish_pfp.png" alt="Krish Rajani" className="team-img" />
+                        <h3 className="member-name">Krish Rajani</h3>
+                        <p className="member-role">Backend Lead</p>
+                        <p className="member-bio">
+                            I built the backend system using AWS Lambda, DynamoDB, and SES/SNS. My goal was to create a lightweight, serverless pipeline
+                            that could process noise data in real-time, store violations securely, and notify users when necessary — all with minimal latency.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
