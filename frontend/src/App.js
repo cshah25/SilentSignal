@@ -10,7 +10,6 @@ import LandingPage from './Pages/LandingPage';
 import Dashboard from './Pages/Dashboard';
 import AboutUs from './Pages/About';
 function App() {
-  // const userId = "rayu";
 
   return (
     <div className="min-h-screen p-6 bg-white text-black">
