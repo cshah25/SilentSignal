@@ -12,7 +12,127 @@ export default function Dashboard() {
     const [totalViolations, setTotalViolations] = useState(0);
     const [totalReadings, setTotalReadings] = useState("");
 
+    const [leaderboard, setLeaderboard] = useState({
+        loudest: null,
+        quietest: null,
+        highestVolume: null,
+        lowestVolume: null
+    });
+
     const API = process.env.REACT_APP_API_URL;
+
+
+    // useEffect(() => {
+    //     const fetchLeaderboard = async () => {
+    //         try {
+    //             const res = await fetch(`${API}/readings/all`);
+    //             if (!res.ok) throw new Error(`Status ${res.status}`);
+    //             const { readings } = await res.json(); // or adjust based on your actual API shape
+
+    //             const users = {};
+
+    //             readings.forEach(r => {
+    //                 const user = r.userId || r?.M?.userId?.S;
+    //                 const decibelRaw = r.decibel ?? r?.M?.decibel?.N;
+    //                 const decibel = parseFloat(decibelRaw);
+
+    //                 if (!user || isNaN(decibel)) return;
+
+    //                 if (!users[user]) {
+    //                     users[user] = {
+    //                         total: 0,
+    //                         sum: 0,
+    //                         max: -Infinity,
+    //                         min: Infinity,
+    //                     };
+    //                 }
+
+    //                 users[user].total++;
+    //                 users[user].sum += decibel;
+    //                 users[user].max = Math.max(users[user].max, decibel);
+    //                 users[user].min = Math.min(users[user].min, decibel);
+    //             });
+
+    //             const userStats = Object.entries(users).map(([userId, stats]) => ({
+    //                 userId,
+    //                 avg: stats.sum / stats.total,
+    //                 total: stats.total,
+    //                 max: stats.max,
+    //                 min: stats.min,
+    //             }));
+
+    //             const loudest = userStats.reduce((a, b) => a.avg > b.avg ? a : b, null);
+    //             const quietest = userStats.reduce((a, b) => a.avg < b.avg ? a : b, null);
+    //             const highestVolume = userStats.reduce((a, b) => a.max > b.max ? a : b, null);
+    //             const lowestVolume = userStats.reduce((a, b) => a.min < b.min ? a : b, null);
+
+    //             setLeaderboard({
+    //                 loudest,
+    //                 quietest,
+    //                 highestVolume,
+    //                 lowestVolume,
+    //             });
+    //         } catch (err) {
+    //             console.error("Error loading leaderboard:", err);
+    //         }
+    //     };
+
+    //     fetchLeaderboard();
+    // }, [API]);
+
+
+    useEffect(() => {
+        const fetchLeaderboard = async () => {
+            try {
+                const res = await fetch(`${API}/readings/all`);
+                if (!res.ok) throw new Error(`Status ${res.status}`);
+                const { readings } = await res.json();
+
+                const users = {};
+                readings.forEach(r => {
+                    const user = r.userId;
+                    const decibel = parseFloat(r.decibel);
+                    if (!user || isNaN(decibel)) return;
+
+                    if (!users[user]) {
+                        users[user] = { total: 0, sum: 0, max: -Infinity, min: Infinity };
+                    }
+                    users[user].total++;
+                    users[user].sum += decibel;
+                    users[user].max = Math.max(users[user].max, decibel);
+                    users[user].min = Math.min(users[user].min, decibel);
+                });
+
+                const userStats = Object.entries(users).map(([userId, stats]) => ({
+                    userId,
+                    avg: stats.sum / stats.total,
+                    total: stats.total,
+                    max: stats.max,
+                    min: stats.min,
+                }));
+
+                // defaults
+                let loudest = null;
+                let quietest = null;
+                let highestVolume = null;
+                let lowestVolume = null;
+
+                if (userStats.length > 0) {
+                    loudest = userStats.reduce((a, b) => a.avg > b.avg ? a : b);
+                    quietest = userStats.reduce((a, b) => a.avg < b.avg ? a : b);
+                    highestVolume = userStats.reduce((a, b) => a.max > b.max ? a : b);
+                    lowestVolume = userStats.reduce((a, b) => a.min < b.min ? a : b);
+                }
+
+                setLeaderboard({ loudest, quietest, highestVolume, lowestVolume });
+            } catch (err) {
+                console.error("Error loading leaderboard:", err);
+            }
+        };
+
+        fetchLeaderboard();
+    }, [API]);
+
 
     useEffect(() => {
         const fetchViolations = async () => {
@@ -133,53 +253,39 @@ export default function Dashboard() {
                 </div>
 
                 <div class="cards-24">
-
                     <div class="card-25">
-
                         <div class="body-28">
-
                             <div class="text-36">
-
-                                <p class="text-37"><span class="text-rgb-30-30-30">The loudest person overall</span></p>
-
-                                <p class="text-31"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
-                                    takeaway points, quotes, anecdotes, or even a very very short story. </span></p>
+                                <p className="text-37"><span className="text-rgb-30-30-30">The loudest person overall</span></p>
+                                <p className="text-31"><span className="text-rgb-117-117-117">
+                                    {leaderboard.loudest ? `${leaderboard.loudest.userId} with avg ${leaderboard.loudest.avg.toFixed(2)} dB` : "Loading..."}
+                                </span></p>
                             </div>
                         </div>
                     </div>
                     <div class="card-25">
                         <div class="body-28">
                             <div class="text-36">
-                                <p class="text-37"><span class="text-rgb-30-30-30">The Quietest person</span></p>
-                                <p class="text-31"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
-                                    takeaway points, quotes, anecdotes, or even a very very short story. </span></p>
+                                <p className="text-37">The Quietest person</p>
+                                <p className="text-31">{leaderboard.quietest ? `${leaderboard.quietest.userId} with avg ${leaderboard.quietest.avg.toFixed(2)} dB` : "Loading..."}</p>
+
                             </div>
                         </div>
                     </div>
                     <div class="card-25">
                         <div class="body-28">
                             <div class="text-36">
-                                <p class="text-37"><span class="text-rgb-30-30-30">The one with most abstract noises</span></p>
-                                <p class="text-31"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
-                                    takeaway points, quotes, anecdotes, or even a very very short story. </span></p>
+                                <p className="text-37">The highest volume ever recorded</p>
+                                <p className="text-31">{leaderboard.highestVolume ? `${leaderboard.highestVolume.userId} hit ${leaderboard.highestVolume.max.toFixed(2)} dB` : "Loading..."}</p>
+
                             </div>
                         </div>
                     </div>
                     <div class="card-25">
                         <div class="body-28">
                             <div class="text-36">
-                                <p class="text-37"><span class="text-rgb-30-30-30">The lowest volume ever recorded</span></p>
-                                <p class="text-31"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
-                                    takeaway points, quotes, anecdotes, or even a very very short story. </span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-25">
-                        <div class="body-28">
-                            <div class="text-36">
-                                <p class="text-37"><span class="text-rgb-30-30-30">The highest volume ever recorded</span></p>
-                                <p class="text-31"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
-                                    takeaway points, quotes, anecdotes, or even a very very short story. </span></p>Add commentMore actions
+                                <p className="text-37">The lowest volume ever recorded</p>
+                                <p className="text-31">{leaderboard.lowestVolume ? `${leaderboard.lowestVolume.userId} hit ${leaderboard.lowestVolume.min.toFixed(2)} dB` : "Loading..."}</p>
                             </div>
                         </div>
                     </div>

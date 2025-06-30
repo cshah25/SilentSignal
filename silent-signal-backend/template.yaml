@@ -19,19 +19,6 @@ Resources:
         AllowMethods: "'OPTIONS,GET,POST'"
         AllowHeaders: "'Content-Type'"
         AllowOrigin: "'*'"
-  
-  ClassifySoundFunction:  
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: .
-      Handler: handlers.classify_sound.handler
-      Events:
-        ApiClassifyPost:
-          Type: Api
-          Properties:
-            RestApiId: !Ref SilentSignalApi
-            Path: /classify
-            Method: post
 
   DetectNoiseFunction:
     Type: AWS::Serverless::Function
@@ -70,6 +57,21 @@ Resources:
       PrimaryKey:
         Name: userId
         Type: String
+  GetAllReadingsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handlers/get_all_readings.handler
+      CodeUri: .
+      Events:
+        ApiReadingsAll:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SilentSignalApi
+            Path: /readings/all
+            Method: get
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref NoiseEventsTable
 
 Outputs:
   ApiUrl:
