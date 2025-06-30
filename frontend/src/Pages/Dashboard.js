@@ -61,33 +61,11 @@ export default function Dashboard() {
                 checking={checking}
                 error={error}
             />
-            // <div className="max-w-md mx-auto p-6">
-            //     <h2 className="text-2xl font-semibold mb-4">Enter Your User ID</h2>
-            //     <form onSubmit={handleSubmit} className="space-y-4">
-            //         <input
-            //             type="text"
-            //             value={inputValue}
-            //             onChange={e => setInputValue(e.target.value)}
-            //             placeholder="User ID"
-            //             className="w-full px-4 py-2 border rounded"
-            //             disabled={checking}
-            //         />
-            //         <button
-            //             type="submit"
-            //             disabled={checking}
-            //             className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-            //         >
-            //             {checking ? "Checking…" : "Go"}
-            //         </button>
-            //         {error && <p className="text-red-600">{error}</p>}
-            //     </form>
-            // </div>
         );
     }
 
     return (
         <div>
-            {/* …your existing dashboard UI, now with dynamic userId… */}
             <div className="hero-image-13">
                 <div className="text-content-title-14">
                     <p className="text-15">
@@ -128,7 +106,6 @@ export default function Dashboard() {
                             <div class="text-36">
 
                                 <p class="text-37"><span class="text-rgb-30-30-30">The loudest person overall</span></p>
-
                                 <p class="text-31"><span class="text-rgb-117-117-117">Body text for whatever you’d like to say. Add main
                                     takeaway points, quotes, anecdotes, or even a very very short story. </span></p>
                             </div>

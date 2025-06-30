@@ -33,7 +33,6 @@ export default function MicMonitor({ userId }) {
   useEffect(() => {
     async function setupMic() {
       try {
-        // 1) set up audio context & analyser
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const audioCtx = new AudioContext();
         audioCtxRef.current = audioCtx;
@@ -42,16 +41,13 @@ export default function MicMonitor({ userId }) {
         analyser.fftSize = 512;
         analyserRef.current = analyser;
 
-        // 2) connect mic → analyser
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         const source = audioCtx.createMediaStreamSource(stream);
         source.connect(analyser);
 
-        // 3) prepare buffer for frequency data
         const bufferLength = analyser.frequencyBinCount;
         dataArrayRef.current = new Uint8Array(bufferLength);
 
-        // 4) script processor to read audio frames
         const scriptNode = audioCtx.createScriptProcessor(2048, 1, 1);
         scriptNodeRef.current = scriptNode;
         analyser.connect(scriptNode);
@@ -61,14 +57,12 @@ export default function MicMonitor({ userId }) {
           const dataArray = dataArrayRef.current;
           analyser.getByteFrequencyData(dataArray);
 
-          // compute “dB” as avg of 0–255 → 0–100
           const avg = dataArray.reduce((sum, v) => sum + v, 0) / bufferLength;
           const db = Math.round((avg / 255) * 100);
 
           setVolume(db);
           setStatus(db > THRESHOLD ? '🔊 Too Loud!' : '✔️ You’re good');
 
-          // update chart history (last 50 readings)
           setHistory(prev => {
             const next = [...prev, db];
             return next.length > 50 ? next.slice(-50) : next;
@@ -77,19 +71,16 @@ export default function MicMonitor({ userId }) {
           const now = Date.now();
           const above = db > THRESHOLD;
 
-          // 1) send immediately on threshold crossing
           if (above && !prevAboveRef.current) {
             sendToAPI(userId, db);
             lastSendRef.current = now;
           }
 
-          // 2) send every SEND_INTERVAL_MS
           if (now - lastSendRef.current >= SEND_INTERVAL_MS) {
             sendToAPI(userId, db);
             lastSendRef.current = now;
           }
 
-          // 3) notify on threshold (throttled)
           if (above && now - lastNotifyRef.current >= NOTIFY_INTERVAL_MS) {
             addNotification({
               title: '🔊 Mic Warning!',
