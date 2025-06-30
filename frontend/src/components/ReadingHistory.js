@@ -1,7 +1,6 @@
-// src/components/ReadingHistory.js
 import React, { useEffect, useState, useRef } from 'react';
 
-const THRESHOLD = 50;           // dB threshold
+const THRESHOLD = 40;           // dB threshold
 const POLL_INTERVAL_MS = 5000;        // refresh every 5 seconds
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 
@@ -16,7 +15,6 @@ export default function ReadingHistory({ userId }) {
           `${REACT_APP_API_URL}/readings?userId=${userId}`
         );
 
-        // 404 → no readings yet
         if (res.status === 404) {
           setReadings([]);
           return;
@@ -64,22 +62,25 @@ export default function ReadingHistory({ userId }) {
             {Array.from({ length: rowCount }).map((_, i) => {
               const r = lastReadings[i];
               const v = lastViolations[i];
+
+              const formatLocalTime = (ts) => {
+                return new Date(new Date(ts).getTime() - new Date().getTimezoneOffset() * 60000)
+                  .toLocaleTimeString();
+              };
+
               return (
                 <tr key={i}>
                   <td style={{ padding: '4px', borderTop: '1px solid #eee' }}>
-                    {r
-                      ? `${new Date(r.timestamp).toLocaleTimeString()}: ${r.decibel} dB`
-                      : ''}
+                    {r ? `${formatLocalTime(r.timestamp)}: ${r.decibel} dB` : ''}
                   </td>
                   <td style={{ padding: '4px', borderTop: '1px solid #eee' }}>
-                    {v
-                      ? `${new Date(v.timestamp).toLocaleTimeString()}: ${v.decibel} dB`
-                      : ''}
+                    {v ? `${formatLocalTime(v.timestamp)}: ${v.decibel} dB` : ''}
                   </td>
                 </tr>
               );
             })}
           </tbody>
+
         </table>
       )}
     </div>

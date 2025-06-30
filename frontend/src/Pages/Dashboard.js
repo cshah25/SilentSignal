@@ -118,10 +118,7 @@ export default function Dashboard() {
             </div>
 
             <div className="live-view-and-graphs-17">
-                <div>
-                    <strong>Live Mic</strong>
-                    <MicMonitor userId={userId} />
-                </div>
+                <MicMonitor userId={userId} />
                 <ReadingHistory userId={userId} />
             </div>
             <div class="card-grid-icon-20">
