@@ -400,35 +400,6 @@ img {
   flex-basis: auto;
 }
 
-.image-26 {
-@media (max-width: 1440px) {
-  .image-26 {
-    width: 47%;
-    min-width: 280px;
-  }
-}
-
-@media (max-width: 768px) {
-  .image-26 {
-    width: 100%;
-    max-width: 100%;
-    min-width: 100%;
-  }
-}
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0px;
-  flex-grow: 0;
-  flex-shrink: 1;
-  flex-basis: auto;
-  width: 30%;
-  min-width: 280px;
-  min-width: 160px;
-  width: 100%;
-  height: auto;
-}
 
 .text-29 {
   flex-grow: 0;
@@ -566,35 +537,6 @@ img {
   border-radius: 8px;
 }
 
-.image-35 {
-@media (max-width: 1440px) {
-  .image-35 {
-    width: 47%;
-    min-width: 280px;
-  }
-}
-
-@media (max-width: 768px) {
-  .image-35 {
-    width: 100%;
-    max-width: 100%;
-    min-width: 100%;
-  }
-}
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0px;
-  flex-grow: 0;
-  flex-shrink: 1;
-  flex-basis: auto;
-  width: 30%;
-  min-width: 280px;
-  min-width: 160px;
-  width: 100%;
-  height: auto;
-}
 
 .text-38 {
   flex-grow: 0;
@@ -732,35 +674,6 @@ img {
   border-radius: 8px;
 }
 
-.image-44 {
-@media (max-width: 1440px) {
-  .image-44 {
-    width: 47%;
-    min-width: 280px;
-  }
-}
-
-@media (max-width: 768px) {
-  .image-44 {
-    width: 100%;
-    max-width: 100%;
-    min-width: 100%;
-  }
-}
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0px;
-  flex-grow: 0;
-  flex-shrink: 1;
-  flex-basis: auto;
-  width: 30%;
-  min-width: 280px;
-  min-width: 160px;
-  width: 100%;
-  height: auto;
-}
 
 .text-47 {
   flex-grow: 0;
@@ -1288,4 +1201,26 @@ img {
   font-size: 0.95rem;
   color: #555;
   line-height: 1.4;
+}
+
+.image-26,
+.image-35,
+.image-44 {
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  .image-26,
+  .image-35,
+  .image-44 {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
 }
