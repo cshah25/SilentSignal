@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles/dashboard.css";
 import MicMonitor from "../components/MicMonitor";
 import ReadingHistory from "../components/ReadingHistory";
+import AudioRecorder from "../components/AudioRecorder";
 import LoginCard from "../components/LoginCard";
 
 export default function Dashboard() {
@@ -105,6 +106,7 @@ export default function Dashboard() {
                 <div>
                     <strong>Live Mic</strong>
                     <MicMonitor userId={userId} />
+                    <AudioRecorder/>
                 </div>
                 <ReadingHistory userId={userId} />
             </div>
