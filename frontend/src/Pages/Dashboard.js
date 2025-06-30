@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/dashboard.css";
 import MicMonitor from "../components/MicMonitor";
 import ReadingHistory from "../components/ReadingHistory";
@@ -7,10 +7,56 @@ import LoginCard from "../components/LoginCard";
 export default function Dashboard() {
     const [userId, setUserId] = useState("");
     const [inputValue, setInputValue] = useState("");
+    const [totalReadings, setTotalReadings] = useState("");
     const [error, setError] = useState("");
     const [checking, setChecking] = useState(false);
+    const [totalViolations, setTotalViolations] = useState(0);
 
     const API = process.env.REACT_APP_API_URL;
+
+    useEffect(() => {
+        const fetchViolations = async () => {
+            if (!userId) return;
+
+            try {
+                const res = await fetch(`${API}/readings?userId=${encodeURIComponent(userId)}`);
+                if (!res.ok) throw new Error(`Status ${res.status}`);
+
+                const responseJson = await res.json();
+
+                let rawList;
+
+                if (Array.isArray(responseJson.readings)) {
+                    rawList = responseJson.readings;
+                } else {
+                    const parsedBody = JSON.parse(responseJson.body || "{}");
+                    rawList = parsedBody.readings?.L || [];
+                }
+
+                if (!Array.isArray(rawList)) {
+                    setTotalViolations(0);
+                    return;
+                }
+
+                const violations = rawList.filter((item, idx) => {
+                    const rawDecibel =
+                        typeof item.decibel === "number"
+                            ? item.decibel
+                            : item?.M?.decibel?.N ?? item.decibel;
+                    const parsed = parseFloat(rawDecibel);
+                    return !isNaN(parsed) && parsed > 50;
+                });
+                setTotalReadings(rawList.length);
+                setTotalViolations(violations.length);
+            } catch (err) {
+                console.error("Error fetching or processing violations:", err);
+                setTotalViolations(0);
+            }
+        };
+
+        fetchViolations();
+    }, [userId, API]);
+
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -25,7 +71,6 @@ export default function Dashboard() {
         try {
             const res = await fetch(`${API}/readings?userId=${encodeURIComponent(trimmed)}`);
 
-            // Treat 404 as “no readings yet” → new user
             if (res.status === 404) {
                 setUserId(trimmed);
                 return;
@@ -69,11 +114,11 @@ export default function Dashboard() {
             <div className="hero-image-13">
                 <div className="text-content-title-14">
                     <p className="text-15">
-                        <span className="text-rgb-12-12-13">Your Last meeting</span>
+                        <span className="text-rgb-12-12-13">{totalReadings} total readings</span>
                     </p>
                     <p className="text-16">
                         <span className="text-rgb-12-12-13">
-                            # mins in total and # of violations
+                            {totalViolations} total violations
                         </span>
                     </p>
                 </div>
