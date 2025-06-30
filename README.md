@@ -11,8 +11,6 @@ Silent Signal is a serverless tool that helps remote teams detect and reduce dis
 - 📊 **Noise Logging** – Tracks noisy moments per user and call in DynamoDB
 - 📩 **Smart Alerts** – Notifies users via email when ambient noise exceeds thresholds
 - 📈 **Team Leaderboard** – Ranks users based on noise levels ("quietest teammate")
-- 🌍 **Geo-Based Insights** – Optional location-based noise analytics
-- 🤖 **AI Noise Classification** (optional) – Detects noise types (e.g. dog, traffic) using Amazon Bedrock
 
 ---
 
@@ -31,8 +29,8 @@ Silent Signal is a serverless tool that helps remote teams detect and reduce dis
 | API Gateway          | AWS API Gateway                   |
 | Processing Logic     | AWS Lambda (Node.js or Python)    |
 | Data Storage         | Amazon DynamoDB                   |
-| Notifications        | Amazon SES / SNS                  |
-| Optional AI Analysis | Amazon Bedrock                    |
+| Notifications        | React Desktop Notifications       |
+| Optional AI Analysis | Python Librosa Library            |
 
 ```mermaid
 flowchart LR
