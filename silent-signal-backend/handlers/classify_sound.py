@@ -19,9 +19,37 @@ label_encoder = model_bundle["label_encoder"]
 def extract_features(path):
     y, sr = librosa.load(path, sr=None)
     mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
-    return np.mean(mfcc.T, axis=0)
+
+    # Convert to list of lists
+    mfcc_list = mfcc.T.tolist()  # Transpose so we average each coefficient
+
+    # Compute mean of each column manually
+    if not mfcc_list:
+        return [0.0] * 13  # fallback if empty
+
+    n = len(mfcc_list)
+    num_coeffs = len(mfcc_list[0])
+    mean_features = []
+
+    for i in range(num_coeffs):
+        col_sum = sum(row[i] for row in mfcc_list)
+        mean_features.append(col_sum / n)
+
+    return mean_features
 
 def handler(event, context):
+
+    if event.get('httpMethod') == 'OPTIONS':
+        return {
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST"
+            },
+            "body": ""
+        }
+
     try:
         body = json.loads(event['body'])
         audio_b64 = body['audio']
@@ -40,9 +68,7 @@ def handler(event, context):
         return {
             "statusCode": 200,
             "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Content-Type",
-                "Access-Control-Allow-Methods": "OPTIONS,POST"
+                "Access-Control-Allow-Origin": "*"
             },
             "body": json.dumps({ "label": predicted_label })
         }
@@ -52,8 +78,6 @@ def handler(event, context):
             "statusCode": 500,
             "headers": {
                 "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Content-Type",
-                "Access-Control-Allow-Methods": "OPTIONS,POST"
             },
             "body": json.dumps({ "error": str(e) })
         }
