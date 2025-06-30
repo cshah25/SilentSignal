@@ -76,7 +76,7 @@ const About = () => {
                         <img src="/images/krish_pfp.png" alt="Krish Rajani" className="team-img" />
                         <h3 className="member-name">Krish Rajani</h3>
                         <p className="member-bio">
-                            Chirayu and I worked hand-in-hand on every layer of Silent Signal — equally dividing frontend and backend responsibilities. We built real-time features, set up cloud infrastructure, and refined the UI together. I really valued our collaborative workflow, especially how we tackled tough problems in tandem and kept the user experience and performance at the center of our development process.
+                            Chirayu and I worked hand-in-hand on every layer of Silent Signal, equally dividing frontend and backend responsibilities. We built real-time features, set up cloud infrastructure, and refined the UI together. I really valued our collaborative workflow, especially how we tackled tough problems in tandem and kept the user experience and performance at the center of our development process.
                         </p>
                     </div>
                 </div>
