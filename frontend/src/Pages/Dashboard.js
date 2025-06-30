@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/dashboard.css";
 import MicMonitor from "../components/MicMonitor";
 import ReadingHistory from "../components/ReadingHistory";
-import AudioRecorder from "../components/AudioRecorder";
 import LoginCard from "../components/LoginCard";
 
 export default function Dashboard() {
@@ -10,8 +9,46 @@ export default function Dashboard() {
     const [inputValue, setInputValue] = useState("");
     const [error, setError] = useState("");
     const [checking, setChecking] = useState(false);
+    const [totalViolations, setTotalViolations] = useState(0);
+    const [totalReadings, setTotalReadings] = useState("");
 
     const API = process.env.REACT_APP_API_URL;
+
+    useEffect(() => {
+        const fetchViolations = async () => {
+            if (!userId) return;
+            try {
+                const res = await fetch(`${API}/readings?userId=${encodeURIComponent(userId)}`);
+                if (!res.ok) throw new Error(`Status ${res.status}`);
+                const responseJson = await res.json();
+                let rawList;
+                if (Array.isArray(responseJson.readings)) {
+                    rawList = responseJson.readings;
+                } else {
+                    const parsedBody = JSON.parse(responseJson.body || "{}");
+                    rawList = parsedBody.readings?.L || [];
+                }
+                if (!Array.isArray(rawList)) {
+                    setTotalViolations(0);
+                    return;
+                }
+                const violations = rawList.filter((item, idx) => {
+                    const rawDecibel =
+                        typeof item.decibel === "number"
+                            ? item.decibel
+                            : item?.M?.decibel?.N ?? item.decibel;
+                    const parsed = parseFloat(rawDecibel);
+                    return !isNaN(parsed) && parsed > 50;
+                });
+                setTotalReadings(rawList.length);
+                setTotalViolations(violations.length);
+            } catch (err) {
+                console.error("Error fetching or processing violations:", err);
+                setTotalViolations(0);
+            }
+        };
+        fetchViolations();
+    }, [userId, API]);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -62,41 +99,19 @@ export default function Dashboard() {
                 checking={checking}
                 error={error}
             />
-            // <div className="max-w-md mx-auto p-6">
-            //     <h2 className="text-2xl font-semibold mb-4">Enter Your User ID</h2>
-            //     <form onSubmit={handleSubmit} className="space-y-4">
-            //         <input
-            //             type="text"
-            //             value={inputValue}
-            //             onChange={e => setInputValue(e.target.value)}
-            //             placeholder="User ID"
-            //             className="w-full px-4 py-2 border rounded"
-            //             disabled={checking}
-            //         />
-            //         <button
-            //             type="submit"
-            //             disabled={checking}
-            //             className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-            //         >
-            //             {checking ? "Checking…" : "Go"}
-            //         </button>
-            //         {error && <p className="text-red-600">{error}</p>}
-            //     </form>
-            // </div>
         );
     }
 
     return (
         <div>
-            {/* …your existing dashboard UI, now with dynamic userId… */}
             <div className="hero-image-13">
                 <div className="text-content-title-14">
                     <p className="text-15">
-                        <span className="text-rgb-12-12-13">Your Last meeting</span>
+                        <span className="text-rgb-12-12-13">{totalReadings} total readings</span>
                     </p>
                     <p className="text-16">
                         <span className="text-rgb-12-12-13">
-                            # mins in total and # of violations
+                            {totalViolations} total violations
                         </span>
                     </p>
                 </div>
@@ -106,7 +121,6 @@ export default function Dashboard() {
                 <div>
                     <strong>Live Mic</strong>
                     <MicMonitor userId={userId} />
-                    <AudioRecorder/>
                 </div>
                 <ReadingHistory userId={userId} />
             </div>
