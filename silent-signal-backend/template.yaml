@@ -5,7 +5,7 @@ Description: silent-signal-backend
 Globals:
   Function:
     Timeout: 10
-    Runtime: python3.11
+    Runtime: python3.13
     Environment:
       Variables:
         TABLE_NAME: !Ref NoiseEventsTable
@@ -44,12 +44,11 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref SilentSignalApi
-            Path: /noise
+            Path: /readings
             Method: get
       Policies:
         - DynamoDBReadPolicy:
             TableName: !Ref NoiseEventsTable
-
 
   NoiseEventsTable:
     Type: AWS::Serverless::SimpleTable
@@ -58,6 +57,21 @@ Resources:
       PrimaryKey:
         Name: userId
         Type: String
+  GetAllReadingsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handlers/get_all_readings.handler
+      CodeUri: .
+      Events:
+        ApiReadingsAll:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SilentSignalApi
+            Path: /readings/all
+            Method: get
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref NoiseEventsTable
 
 Outputs:
   ApiUrl:
