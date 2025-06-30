@@ -54,6 +54,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: handlers.classify_sound.handler
+      Runtime: python3.13
+      CodeUri: .
       Events:
         ApiClassifyPost:
           Type: Api
