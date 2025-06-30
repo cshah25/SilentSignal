@@ -10,10 +10,6 @@ const About = () => {
                     <p className="text-16"><span className="text-rgb-117-117-117">Silent Signal Devs</span></p>
                 </div>
             </div>
-            <div className="panel-image-double-17">
-                <img src="images/image-18.png" className="image-18" alt="image" />
-                <img src="images/image-19.png" className="image-19" alt="image" />
-            </div>
             <div className="node-20">
                 <div className="text-content-heading-21">
                     <p className="text-22"><span className="text-rgb-30-30-30">Our Development Journey</span></p>
@@ -65,29 +61,22 @@ const About = () => {
                 </div>
             </div>
 
-            {/* Meet the Team Section */}
             <div className="team-section">
                 <h2 className="team-title">Meet the Team</h2>
                 <div className="team-grid">
-                    {/* Chirayu Shah */}
                     <div className="team-member">
                         <img src="/images/rayu_pfp.png" alt="Chirayu Shah" className="team-img" />
                         <h3 className="member-name">Chirayu Shah</h3>
-                        <p className="member-role">Frontend Lead</p>
                         <p className="member-bio">
-                            I focused on the user-facing experience of Silent Signal — from capturing live mic input to displaying real-time feedback and analytics.
-                            Using React, the Web Audio API, and Chart.js, I ensured the interface was fast, responsive, and helpful without being distracting.
+                            Krish and I collaborated equally on both the frontend and backend of Silent Signal. From designing intuitive UI components to implementing real-time audio monitoring and configuring serverless functions, we built each part of the system together. I especially enjoyed the challenge of making the app responsive and privacy-focused while working side-by-side on core logic and deployment tasks.
                         </p>
-                    </div>
 
-                    {/* Krish Rajani */}
+                    </div>
                     <div className="team-member">
                         <img src="/images/krish_pfp.png" alt="Krish Rajani" className="team-img" />
                         <h3 className="member-name">Krish Rajani</h3>
-                        <p className="member-role">Backend Lead</p>
                         <p className="member-bio">
-                            I built the backend system using AWS Lambda, DynamoDB, and SES/SNS. My goal was to create a lightweight, serverless pipeline
-                            that could process noise data in real-time, store violations securely, and notify users when necessary — all with minimal latency.
+                            Chirayu and I worked hand-in-hand on every layer of Silent Signal — equally dividing frontend and backend responsibilities. We built real-time features, set up cloud infrastructure, and refined the UI together. I really valued our collaborative workflow, especially how we tackled tough problems in tandem and kept the user experience and performance at the center of our development process.
                         </p>
                     </div>
                 </div>
