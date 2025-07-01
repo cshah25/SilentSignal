@@ -16,8 +16,7 @@ Silent Signal is a serverless tool that helps remote teams detect and reduce dis
 
 ## 📸 Demo
 
-🎥 [Watch the 3-minute video demo on YouTube](#)  
-*TODO: VIDEO LINK UPLOAD*
+🎥 [Watch the 3-minute video demo on YouTube](https://youtu.be/7MXy9Z_qdNU)  
 
 ---
 
