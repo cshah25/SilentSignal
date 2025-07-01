@@ -31,6 +31,12 @@ Silent Signal is a serverless tool that helps remote teams detect and reduce dis
 | Notifications        | React Desktop Notifications       |
 | Optional AI Analysis | Python Librosa Library            |
 
+---
+## TODO
+- Create a room based video conferencing feature using lambda
+- Implement a switchable dark theme for the website
+- Implement a secure password based login using DynamoDB Auth
+
 ```mermaid
 flowchart LR
     A[User Mic Input] --> B[Frontend: Web Audio API]
