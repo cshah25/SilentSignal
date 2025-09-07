@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from handlers import detect_noise, get_readings, classify_sound
+from handlers import detect_noise, get_readings, get_all_readings, classify_sound
 
 app = Flask(__name__)
 
